@@ -9,7 +9,13 @@
     <link href="css/style.css" rel="stylesheet" />
   </head>
   <body ng-controller="initCtrl">
-    <div id="mapContainer"></div>
+    <div id="mapContainer">
+      <div id="searchBar" ng-show="mapObj" ng-controller="searchCtrl">
+        <form>
+          <input type="text" name="keyword" required /><input type="submit" ng-click="submitForm()" />
+        </form>
+      </div>
+    </div>
     <script src="//webapi.amap.com/maps?v=1.2&key=97b27bfcd3d40ec66b150c4acb673034"></script>
     <script src="js/angular.js"></script>
     <script src="js/index.js"></script>

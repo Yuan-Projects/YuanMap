@@ -22,3 +22,9 @@ myApp.controller("initCtrl", function ($scope) {
   });
 
 });
+
+myApp.controller("searchCtrl", function ($scope) {
+  $scope.submitForm = function(){
+    //alert("fire");
+  }
+});
