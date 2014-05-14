@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="mainApp">
+  <head>
+    <meta charset="utf-8" />
+    <title>YuanMap</title>
+    <meta name="viewport" content="initial-scale=1.1, user-scalable=no" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="panel" ng-controller="initCtrl">
+      <div class="page-header">
+        <h3>AngularJS App</h3>
+      </div>
+      <div id="mapContainer"></div>
+    </div>
+    <script src="http://webapi.amap.com/maps?v=1.2&key=97b27bfcd3d40ec66b150c4acb673034"></script>
+    <script src="js/angular.js"></script>
+    <script>
+      var myApp = angular.module("mainApp", []);
+
+      myApp.controller("initCtrl", function ($scope) {
+        var position=new AMap.LngLat(116.404,39.915);
+        var mapObj=new AMap.Map("mapContainer",{center:position});
+      });
+    </script>
+  </body>
+</html>
