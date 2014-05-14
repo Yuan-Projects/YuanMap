@@ -23,8 +23,21 @@ myApp.controller("initCtrl", function ($scope) {
 
 });
 
-myApp.controller("searchCtrl", function ($scope) {
+myApp.controller("searchCtrl", function ($scope, $http) {
+
+  $scope.data = {};
+
   $scope.submitForm = function(){
-    //alert("fire");
-  }
+    $scope.mapObj.plugin(["AMap.PlaceSearch"],function(){
+      // TODO
+      var options = {
+        city: "北京市"
+      };
+      var placeSearch = new AMap.PlaceSearch(options);
+      AMap.event.addListener(placeSearch,"complete",function(data){
+        console.log("Result:", data);
+      });
+      placeSearch.search($scope.data.keyword);
+    });
+  };
 });
