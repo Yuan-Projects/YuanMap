@@ -11,8 +11,8 @@
   <body ng-controller="initCtrl">
     <div id="mapContainer">
       <div id="searchBar" ng-show="mapObj" ng-controller="searchCtrl">
-        <form name="searchForm">
-          <input type="text" ng-model="data.keyword" name="keyword" required /><input type="submit" ng-click="submitForm()" />
+        <form name="searchForm" ng-submit="submitForm()">
+          <input type="text" ng-model="data.keyword" name="keyword" placeholder="keyword" required /><input type="submit" />
         </form>
       </div>
     </div>

@@ -9,16 +9,23 @@ myApp.controller("initCtrl", function ($scope) {
   var mapObj = new AMap.Map("mapContainer", mapOptions);
   $scope.mapObj = mapObj;
 
-  mapObj.plugin(["AMap.ToolBar"], function(){
+  mapObj.plugin(["AMap.ToolBar", "AMap.CitySearch"], function(){
 
     var toolBarOptions = {};
-    if ("geolocation" in navigator) {
+    var isGeoSupported = ("geolocation" in navigator);
+    if (isGeoSupported) {
       toolBarOptions.autoPosition = true;
     }
     var toolbar = new AMap.ToolBar(toolBarOptions);
     mapObj.addControl(toolbar);
     $scope.toolbar = toolbar;
 
+    // Get current city by user IP address.
+    var citySearch = new AMap.CitySearch();
+    citySearch.getLocalCity();
+    AMap.event.addListener(citySearch,"complete",function(data){
+      $scope.currentCity = data.city;
+    });
   });
 
 });
@@ -29,9 +36,8 @@ myApp.controller("searchCtrl", function ($scope, $http) {
 
   $scope.submitForm = function(){
     $scope.mapObj.plugin(["AMap.PlaceSearch"],function(){
-      // TODO
       var options = {
-        city: "北京市"
+        city: $scope.currentCity
       };
       var placeSearch = new AMap.PlaceSearch(options);
       AMap.event.addListener(placeSearch,"complete",function(data){
