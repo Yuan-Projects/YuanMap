@@ -1,6 +1,6 @@
-var myApp = angular.module("mainApp", []);
+var myApp = angular.module("mainApp", ["amapServices"]);
 
-myApp.controller("initCtrl", function ($scope) {
+myApp.controller("initCtrl", function ($scope, geoService) {
   var position = new AMap.LngLat(116.404,39.915);
   var mapOptions = {
     center: position,
@@ -9,8 +9,7 @@ myApp.controller("initCtrl", function ($scope) {
   var mapObj = new AMap.Map("mapContainer", mapOptions);
   $scope.mapObj = mapObj;
 
-  mapObj.plugin(["AMap.ToolBar", "AMap.CitySearch"], function(){
-
+  mapObj.plugin(["AMap.ToolBar"], function(){
     var toolBarOptions = {};
     var isGeoSupported = ("geolocation" in navigator);
     if (isGeoSupported) {
@@ -19,31 +18,20 @@ myApp.controller("initCtrl", function ($scope) {
     var toolbar = new AMap.ToolBar(toolBarOptions);
     mapObj.addControl(toolbar);
     $scope.toolbar = toolbar;
+  });
 
-    // Get current city by user IP address.
-    var citySearch = new AMap.CitySearch();
-    citySearch.getLocalCity();
-    AMap.event.addListener(citySearch,"complete",function(data){
-      $scope.currentCity = data.city;
-    });
+  geoService.getUserCity($scope.mapObj, function(data) {
+    $scope.currentCity = data.city;
   });
 
 });
 
-myApp.controller("searchCtrl", function ($scope, $http) {
-
+myApp.controller("searchCtrl", function ($scope, searchService) {
   $scope.data = {};
 
   $scope.submitForm = function(){
-    $scope.mapObj.plugin(["AMap.PlaceSearch"],function(){
-      var options = {
-        city: $scope.currentCity
-      };
-      var placeSearch = new AMap.PlaceSearch(options);
-      AMap.event.addListener(placeSearch,"complete",function(data){
-        console.log("Result:", data);
-      });
-      placeSearch.search($scope.data.keyword);
+    searchService.placeSearch($scope.data.keyword, $scope.mapObj, $scope.currentCity, function(data) {
+      console.log("Everything is OK:", data);
     });
   };
 });
