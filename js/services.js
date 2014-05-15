@@ -34,4 +34,19 @@ angular.module("amapServices", [])
       });
     }
   };
+}).
+factory("pluginService", function() {
+  return {
+    toolBar: function(mapObj) {
+      mapObj.plugin(["AMap.ToolBar"], function(){
+        var toolBarOptions = {};
+        var isGeoSupported = ("geolocation" in navigator);
+        if (isGeoSupported) {
+          toolBarOptions.autoPosition = true;
+        }
+        var toolbar = new AMap.ToolBar(toolBarOptions);
+        mapObj.addControl(toolbar);
+      });
+    }
+  }
 });
