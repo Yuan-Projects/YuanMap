@@ -1,4 +1,19 @@
 angular.module("amapServices", [])
+.factory("coreService", function(){
+  return {
+    "initMap": function(successCallback) {
+      var position = new AMap.LngLat(116.404,39.915);
+      var mapOptions = {
+        center: position,
+        level: 12
+      };
+      var mapObj = new AMap.Map("mapContainer", mapOptions);
+      if (angular.isFunction(successCallback)) {
+        successCallback(mapObj);
+      }
+    }
+  };
+})
 .factory("searchService", function () {
   return {
     "placeSearch": function(keyword, mapObj, currentCity, successCallback, errorCallback) {

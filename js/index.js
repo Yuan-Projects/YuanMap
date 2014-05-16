@@ -1,13 +1,10 @@
 var myApp = angular.module("mainApp", ["amapServices"]);
 
-myApp.controller("initCtrl", function ($scope, geoService, pluginService) {
-  var position = new AMap.LngLat(116.404,39.915);
-  var mapOptions = {
-    center: position,
-    level: 12
-  };
-  var mapObj = new AMap.Map("mapContainer", mapOptions);
-  $scope.mapObj = mapObj;
+myApp.controller("initCtrl", function ($scope, coreService, geoService, pluginService) {
+
+  coreService.initMap(function(mapObj){
+    $scope.mapObj = mapObj;
+  });
 
   pluginService.toolBar($scope.mapObj);
 
