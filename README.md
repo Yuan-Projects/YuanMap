@@ -3,4 +3,4 @@ YuanMap
 
 A simple web-based Map Application.
 
-GPL 2
+This is the development branch.
